@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/tww-bill-generator/static/css/main.e6c13ad2.css",
+    "main.js": "/tww-bill-generator/static/js/main.15dd14cc.js",
+    "static/js/213.37f2f862.chunk.js": "/tww-bill-generator/static/js/213.37f2f862.chunk.js",
+    "static/js/732.c144da7c.chunk.js": "/tww-bill-generator/static/js/732.c144da7c.chunk.js",
+    "static/js/453.f475c6dc.chunk.js": "/tww-bill-generator/static/js/453.f475c6dc.chunk.js",
+    "index.html": "/tww-bill-generator/index.html",
+    "main.e6c13ad2.css.map": "/tww-bill-generator/static/css/main.e6c13ad2.css.map",
+    "main.15dd14cc.js.map": "/tww-bill-generator/static/js/main.15dd14cc.js.map",
+    "213.37f2f862.chunk.js.map": "/tww-bill-generator/static/js/213.37f2f862.chunk.js.map",
+    "732.c144da7c.chunk.js.map": "/tww-bill-generator/static/js/732.c144da7c.chunk.js.map",
+    "453.f475c6dc.chunk.js.map": "/tww-bill-generator/static/js/453.f475c6dc.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.15dd14cc.js"
+  ]
+}
