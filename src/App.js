@@ -32,7 +32,11 @@ function App() {
     Teak: false,
     Maple: false,
     Tent: false,
-  });  
+  });
+
+  const maxCapacity = {
+    Cedar: 8, Pine: 5, Teak: 3, Maple: 3, Tent: 2
+  }
 
   const [gst, setGST] = useState(0);
   const [rentBasePrice, setRentBasePrice] = useState(0);
@@ -70,6 +74,18 @@ function App() {
     e.preventDefault();
     calculateValues();
   };
+
+  const generateImage = () => {
+    if (contentRef.current) {
+      html2canvas(contentRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'BILL_' + formData.bookingId + '_' + formData.guestName + '_' + formData.checkInDate + '.png';
+        link.click();
+      });
+    }
+  }
 
   const generatePdf = async () => {
     calculateValues();
@@ -202,7 +218,7 @@ function App() {
           </tr>
         </table>
       </form>
-      <div ref={contentRef} style={{width: '97%', padding: '20px', marginTop: '20px', border: '1px solid #ccc' }}>
+      <div ref={contentRef} style={{ width: '97%', padding: '20px', marginTop: '20px', border: '1px solid #ccc' }}>
         <table style={{ borderWidth: 0, width: '100%' }} >
           <tr style={{ width: '100%' }}>
             <td style={{ width: '50%' }}><big><big><big><big><big><big>Host Receipt</big></big></big></big></big></big></td>
@@ -424,7 +440,7 @@ function App() {
             <td ><b>Name: </b> {formData.guestName} </td>
             <td ><stong>Rooms Booked: </stong><small>
               {Object.keys(selectedRooms).map((key) => (
-                  selectedRooms[key] && key + ', '
+                selectedRooms[key] && key + ', '
               ))}
             </small>
             </td>
@@ -448,13 +464,17 @@ function App() {
               <hr />
             </td>
           </tr>
-          <tr>
-            <td colspan="2" align='center'>
-              <button onClick={generatePdf}>Download as PDF</button>
-            </td>
-          </tr>
         </table>
       </div>
+      <center>
+        <table style={{ borderWidth: 0, width: '75%' }} >
+          <tr>
+            <td align='center'><button onClick={generatePdf}>Download as PDF</button> </td>
+            <td align='center'><button onClick={generateImage}>Download as Image</button></td>
+          </tr>
+        </table>
+      </center>
+
     </div>
   );
 }
