@@ -1,12 +1,29 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
 function App() {
+
+  useEffect(() => {
+    document.title = 'The Westwood - Receipt Generator';
+  }, []);
+
   const [formData, setFormData] = useState({
-    bookingId: '', bookingDate: '', guestName: '', totalRentAmount: 0.0,
+    bookingId: 'TWW-CEDAR-OCT24-01', bookingDate: new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }), guestName: '', totalRentAmount: 0.0,
     numberOfNights: 0, numberOfPeople: 0, extraChildren: 0, voluntaryDiscount: 0, agentCommission: 0,
-    propertyDiscount: 0, advancePaid: 0, idCardType: "PAN Card", idCardNumber: "", checkInDate: "", checkOutDate: ""
+    propertyDiscount: 0, advancePaid: 0, idCardType: "", idCardNumber: "", checkInDate: new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }), checkOutDate: new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
   });
 
   const [selectedRooms, setSelectedRooms] = useState({
@@ -153,6 +170,7 @@ function App() {
             </td>
             <td>
               <select name="idCardType" onChange={handleChange}>
+                <option value="">--Select One--</option>
                 <option value="PAN Card">Pan Card</option>
                 <option value="Aadhar Card">Aadhar Card</option>
                 <option value="Driving License">Driving License</option>
@@ -184,7 +202,7 @@ function App() {
           </tr>
         </table>
       </form>
-      <div ref={contentRef} style={{ width: '100%', padding: '20px', marginTop: '20px', border: '1px solid #ccc' }}>
+      <div ref={contentRef} style={{width: '97%', padding: '20px', marginTop: '20px', border: '1px solid #ccc' }}>
         <table style={{ borderWidth: 0, width: '100%' }} >
           <tr style={{ width: '100%' }}>
             <td style={{ width: '50%' }}><big><big><big><big><big><big>Host Receipt</big></big></big></big></big></big></td>
@@ -430,39 +448,15 @@ function App() {
               <hr />
             </td>
           </tr>
+          <tr>
+            <td colspan="2" align='center'>
+              <button onClick={generatePdf}>Download as PDF</button>
+            </td>
+          </tr>
         </table>
       </div>
-      <button onClick={generatePdf}>Download as PDF</button>
     </div>
   );
 }
 
 export default App;
-
-
-
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
