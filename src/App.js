@@ -7,6 +7,8 @@ import { format } from 'date-fns';
 
 function App() {
 
+  const [id, setID] = useState('TWW-' + format(new Date(), 'MMMyy').toUpperCase() + '-')
+
   useEffect(() => {
     document.title = 'The Westwood - Receipt Generator';
   }, []);
@@ -16,7 +18,7 @@ function App() {
   const [checkOutDate, setCheckOutDate] = useState(new Date());
 
   const [formData, setFormData] = useState({
-    bookingId: 'TWW-CEDAR-OCT24-01', guestName: '', totalRentAmount: 0,
+    bookingId: 'TWW-' + format(new Date(), 'MMMyy').toUpperCase() + '-', guestName: '', totalRentAmount: 0,
     numberOfPeople: 0, extraChildren: 0, voluntaryDiscount: 0, agentCommission: 0,
     propertyDiscount: 0, advancePaid: 0, idCardType: "", idCardNumber: ""
   });
