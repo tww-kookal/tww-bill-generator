@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
 
 function App() {
 
@@ -8,22 +11,14 @@ function App() {
     document.title = 'The Westwood - Receipt Generator';
   }, []);
 
+  const [bookingDate, setBookingDate] = useState(new Date());
+  const [checkInDate, setCheckInDate] = useState(new Date());
+  const [checkOutDate, setCheckOutDate] = useState(new Date());
+
   const [formData, setFormData] = useState({
-    bookingId: 'TWW-CEDAR-OCT24-01', bookingDate: new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    }), guestName: '', totalRentAmount: 0.0,
-    numberOfNights: 0, numberOfPeople: 0, extraChildren: 0, voluntaryDiscount: 0, agentCommission: 0,
-    propertyDiscount: 0, advancePaid: 0, idCardType: "", idCardNumber: "", checkInDate: new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    }), checkOutDate: new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    })
+    bookingId: 'TWW-CEDAR-OCT24-01', guestName: '', totalRentAmount: 0,
+    numberOfPeople: 0, extraChildren: 0, voluntaryDiscount: 0, agentCommission: 0,
+    propertyDiscount: 0, advancePaid: 0, idCardType: "", idCardNumber: ""
   });
 
   const [selectedRooms, setSelectedRooms] = useState({
@@ -33,6 +28,8 @@ function App() {
     Maple: false,
     Tent: false,
   });
+
+  const [numberOfNights, setNumberOfNights] = useState(0);
 
   const maxCapacity = {
     Cedar: 8, Pine: 5, Teak: 3, Maple: 3, Tent: 2
@@ -64,10 +61,22 @@ function App() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const calculateDaysBetween = (start, end) => {
+    if (start && end) {
+      const startTime = start.getTime();
+      const endTime = end.getTime();
+      const diffInTime = Math.abs(endTime - startTime);
+      const diffInDays = diffInTime / (1000 * 60 * 60 * 24);
+      return diffInDays;
+    }
+    return 0;
+  };
+
   const calculateValues = () => {
     setRentBasePrice(Math.round(formData.totalRentAmount / (1 + GOV_GST)));
     setGST(Math.round(formData.totalRentAmount - Math.round(formData.totalRentAmount / (1 + GOV_GST))));
     setBalanceToBePaid(Math.round(formData.totalRentAmount - formData.advancePaid));
+    setNumberOfNights(Math.round(Math.ceil(calculateDaysBetween(checkInDate, checkOutDate))));
   }
 
   const loadValues = (e) => {
@@ -81,7 +90,19 @@ function App() {
         const imgData = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = imgData;
-        link.download = 'BILL_' + formData.bookingId + '_' + formData.guestName + '_' + formData.checkInDate + '.png';
+        link.download = 'PNG-BILL_' + formData.bookingId + '_' + formData.guestName + '_' + checkInDate + '.png';
+        link.click();
+      });
+    }
+  }
+
+  const generateJPEG = () => {
+    if (contentRef.current) {
+      html2canvas(contentRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL('image/jpeg');
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'JPEG-BILL_' + formData.bookingId + '_' + formData.guestName + '_' + checkInDate + '.jpg';
         link.click();
       });
     }
@@ -94,7 +115,7 @@ function App() {
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF();
     pdf.addImage(imgData, 'PNG', 10, 10, 180, 160);
-    pdf.save('BILL_' + formData.bookingId + '_' + formData.guestName + '_' + formData.checkInDate + '.pdf');
+    pdf.save('PDF-BILL_' + formData.bookingId + '_' + formData.guestName + '_' + checkInDate + '.pdf');
   };
 
   return (
@@ -116,7 +137,12 @@ function App() {
               <label>Booking Date:</label>
             </td>
             <td>
-              <input type="text" name="bookingDate" value={formData.bookingDate} onChange={handleChange} />
+              <DatePicker
+                selected={bookingDate}
+                onChange={(date) => setBookingDate(date)}
+                dateFormat="MMM dd, yyyy"
+                placeholderText="Select Booking Date"
+              />
             </td>
           </tr>
           <tr>
@@ -124,7 +150,12 @@ function App() {
               <label>Check In Date:</label>
             </td>
             <td>
-              <input type="text" name="checkInDate" value={formData.checkInDate} onChange={handleChange} />
+              {<DatePicker
+                selected={checkInDate}
+                onChange={(date) => setCheckInDate(date)}
+                dateFormat="MMM dd, yyyy"
+                placeholderText="Select Check In Date"
+              />}
             </td>
           </tr>
           <tr>
@@ -132,7 +163,12 @@ function App() {
               <label>Check Out Date:</label>
             </td>
             <td>
-              <input type="text" name="checkOutDate" value={formData.checkOutDate} onChange={handleChange} />
+              {<DatePicker
+                selected={checkOutDate}
+                onChange={(date) => setCheckOutDate(date)}
+                dateFormat="MMM dd, yyyy"
+                placeholderText="Select Check Out Date"
+              />}
             </td>
           </tr>
           <tr>
@@ -162,14 +198,6 @@ function App() {
               <input type="checkbox" name="Teak" checked={selectedRooms.Teak} onChange={handleSelectedRoomsChange} /> Teak
               <input type="checkbox" name="Maple" checked={selectedRooms.Maple} onChange={handleSelectedRoomsChange} /> Maple
               <input type="checkbox" name="Tent" checked={selectedRooms.Tent} onChange={handleSelectedRoomsChange} /> Tent
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label>Number Of Nights:</label>
-            </td>
-            <td>
-              <input type="text" name="numberOfNights" value={formData.numberOfNights} onChange={handleChange} />
             </td>
           </tr>
           <tr>
@@ -236,7 +264,7 @@ function App() {
             </td>
           </tr>
           <tr>
-            <td><label>Booking Date - {formData.bookingDate} </label></td>
+            <td><label>Booking Date - {bookingDate && format(bookingDate, 'MMM dd, yyyy')} </label></td>
             <td align="right">https://www.thewestwood.in/</td>
           </tr>
           <tr>
@@ -286,7 +314,7 @@ function App() {
                   <tr>
                     <td><label>
                       Property Sell Price<br />
-                      <font style={{ color: 'darkgray' }}>{countSelectedRooms()} Room(s) x {formData.numberOfNights} Night(s)</font>
+                      <font style={{ color: 'darkgray' }}>{countSelectedRooms()} Room(s) x {numberOfNights} Night(s)</font>
                     </label></td>
                     <td align="right"> &nbsp;<br />{rentBasePrice} </td>
                   </tr>
@@ -403,7 +431,7 @@ function App() {
           </tr>
           <tr>
             <td style={{ width: '25%' }}>
-              <big><stong>{formData.numberOfNights} NIGHT(S)</stong></big>
+              <big><stong>{numberOfNights} NIGHT(S)</stong></big>
             </td>
             <td style={{ width: '75%' }}>
               <table style={{ width: '100%;' }}>
@@ -420,13 +448,13 @@ function App() {
                 </tr>
                 <tr>
                   <td style={{ width: '33%', textAlign: 'center' }}>
-                    {formData.checkInDate}
+                    {checkInDate && format(checkInDate, 'MMM dd, yyyy')}
                   </td>
                   <td style={{ width: '33%', textAlign: 'center' }}>
                     <hr style={{ color: 'darkgray' }} />
                   </td>
                   <td style={{ width: '33%', textAlign: 'center' }}>
-                    {formData.checkOutDate}
+                    {checkOutDate && format(checkOutDate, 'MMM dd, yyyy')}
                   </td>
                 </tr>
               </table>
@@ -470,7 +498,8 @@ function App() {
         <table style={{ borderWidth: 0, width: '75%' }} >
           <tr>
             <td align='center'><button onClick={generatePdf}>Download as PDF</button> </td>
-            <td align='center'><button onClick={generateImage}>Download as Image</button></td>
+            <td align='center'><button onClick={generateImage}>Download as Image/PNG</button></td>
+            <td align='center'><button onClick={generateJPEG}>Download as Image/JPEG</button></td>
           </tr>
         </table>
       </center>
