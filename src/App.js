@@ -16,6 +16,9 @@ function App() {
   const [bookingDate, setBookingDate] = useState(new Date());
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState(new Date());
+  const [checkInTime, setCheckInTime] = useState("01:00 PM");
+  const [checkOutTime, setCheckOutTime] = useState("11:00 AM");
+
 
   const [formData, setFormData] = useState({
     bookingId: 'TWW-' + format(new Date(), 'MMMyy').toUpperCase() + '-', guestName: '', totalRentAmount: 0,
@@ -55,7 +58,6 @@ function App() {
       ...prevState,
       [name]: checked,
     }));
-    console.log("Selc " + JSON.stringify(selectedRooms))
   };
 
   const handleChange = (e) => {
@@ -242,6 +244,22 @@ function App() {
             </td>
           </tr>
           <tr>
+            <td>
+              <label>CheckIn Time:</label>
+            </td>
+            <td>
+              <input type="text" name="checkInTime" value={checkInTime} onChange={(e) => setCheckInTime(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>CheckOut Time:</label>
+            </td>
+            <td>
+              <input type="text" name="checkOutTime" value={checkOutTime} onChange={(e) => setCheckOutTime(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
             <td colspan="2">
               <center> <button onClick={loadValues}>Preview</button></center>
             </td>
@@ -262,12 +280,19 @@ function App() {
             <td align="right">
               Kookal, Kodaikanal, Tamilnadu
               <br />
-              9884855014, thewestwood.kookal@gmail.com
+              thewestwood.kookal@gmail.com
             </td>
+
           </tr>
           <tr>
-            <td><label>Booking Date - {bookingDate && format(bookingDate, 'MMM dd, yyyy')} </label></td>
+            <td><label>Booking Date- {bookingDate && format(bookingDate, 'MMM dd, yyyy')} </label></td>
             <td align="right">https://www.thewestwood.in/</td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right">For Bookings: 98848 55014/41</td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right">Care Taker: 93634 90857</td>
           </tr>
           <tr>
             <td colspan="2">
@@ -450,13 +475,13 @@ function App() {
                 </tr>
                 <tr>
                   <td style={{ width: '33%', textAlign: 'center' }}>
-                    {checkInDate && format(checkInDate, 'MMM dd, yyyy')}
+                    {checkInDate && format(checkInDate, 'MMM dd, yyyy')} - {checkInTime}
                   </td>
                   <td style={{ width: '33%', textAlign: 'center' }}>
                     <hr style={{ color: 'darkgray' }} />
                   </td>
                   <td style={{ width: '33%', textAlign: 'center' }}>
-                    {checkOutDate && format(checkOutDate, 'MMM dd, yyyy')}
+                    {checkOutDate && format(checkOutDate, 'MMM dd, yyyy')}  - {checkOutTime}
                   </td>
                 </tr>
               </table>
@@ -481,6 +506,9 @@ function App() {
           </tr>
           <tr>
             <td colspan="2"><stong>Identification Number: </stong> {formData.idCardNumber}</td>
+          </tr>
+          <tr>
+            <td colspan="2"><stong><b>Care Taker can be contacted in the premises at Ph: 93634 90857 / Extn: 701</b></stong></td>
           </tr>
           <tr>
             <td colspan="2"><stong><font style={{ color: 'darkgray' }}>Inclusions:</font></stong></td>
