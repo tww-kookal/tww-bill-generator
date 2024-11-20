@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/tww-bill-generator/static/css/main.03cb39dd.css",
-    "main.js": "/tww-bill-generator/static/js/main.31a0523b.js",
+    "main.js": "/tww-bill-generator/static/js/main.b208b087.js",
     "static/js/213.29426687.chunk.js": "/tww-bill-generator/static/js/213.29426687.chunk.js",
     "static/js/732.701b9ed1.chunk.js": "/tww-bill-generator/static/js/732.701b9ed1.chunk.js",
     "static/js/453.0155350b.chunk.js": "/tww-bill-generator/static/js/453.0155350b.chunk.js",
     "index.html": "/tww-bill-generator/index.html",
     "main.03cb39dd.css.map": "/tww-bill-generator/static/css/main.03cb39dd.css.map",
-    "main.31a0523b.js.map": "/tww-bill-generator/static/js/main.31a0523b.js.map",
+    "main.b208b087.js.map": "/tww-bill-generator/static/js/main.b208b087.js.map",
     "213.29426687.chunk.js.map": "/tww-bill-generator/static/js/213.29426687.chunk.js.map",
     "732.701b9ed1.chunk.js.map": "/tww-bill-generator/static/js/732.701b9ed1.chunk.js.map",
     "453.0155350b.chunk.js.map": "/tww-bill-generator/static/js/453.0155350b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.03cb39dd.css",
-    "static/js/main.31a0523b.js"
+    "static/js/main.b208b087.js"
   ]
 }
