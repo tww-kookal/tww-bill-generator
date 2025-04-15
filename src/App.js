@@ -46,7 +46,7 @@ function App() {
   const [effectivePropertyRentPrice, setEffectivePropertyRentPrice] = useState(0);
 
   const contentRef = useRef();
-  const GOV_GST = 0.18;
+  const GOV_GST = 0.0;//0.18;
 
   const countSelectedRooms = () => {
     return Object.values(selectedRooms).filter((value) => value === true).length;
@@ -332,7 +332,7 @@ function App() {
                 <table width="98%">
 
                   <tr>
-                    <td><label><strong>Paymnent Breakup</strong></label></td>
+                    <td><label><strong>Payment Breakup</strong></label></td>
                     <td align="right"><small><font style={{ color: 'darkgray' }}>All prices indicated below are in INR </font></small></td>
                   </tr>
                   <tr>
@@ -396,7 +396,7 @@ function App() {
                       <hr />
                     </td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td><label>GST @ 18%</label><br /><font style={{ color: 'darkgray' }}>(Including IGST or (SGST & CGST))</font></td>
                     <td align="right"> {gst} </td>
                   </tr>
@@ -404,7 +404,7 @@ function App() {
                     <td colspan="2">
                       <hr />
                     </td>
-                  </tr>
+                  </tr> */}
                   <tr>
                     <td><label>Property discount including tax considered in
                       coupon promotion</label></td>
