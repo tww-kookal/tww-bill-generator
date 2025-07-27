@@ -508,7 +508,7 @@ function App() {
             <td colspan="2"><stong>Identification Number: </stong> {formData.idCardNumber}</td>
           </tr>
           <tr>
-            <td colspan="2"><stong><b>Care Taker can be contacted in the premises at Ph: 93634 90857 / Extn: 701</b></stong></td>
+            <td colspan="2"><stong><b>Care Taker can be contacted in the premises at Ph: 98848 55041 / Extn: 701</b></stong></td>
           </tr>
           <tr>
             <td colspan="2"><stong><font style={{ color: 'darkgray' }}>Inclusions:</font></stong></td>
